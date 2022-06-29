@@ -14,11 +14,9 @@ const UserSignupSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    },
-    confirmPassword: {
-        type: String,
-        required: true
     }
+   
 });
-const SignupModel = mongoose.model("Register", UserSignupSchema);
-export default SignupModel;
+const signupModel = mongoose.model("Register", UserSignupSchema);
+
+export default signupModel;
