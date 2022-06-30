@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import HistoryModel from "./historyModel.js";
 
 const UserSignupSchema = new mongoose.Schema({
     name: {
@@ -17,7 +18,8 @@ const UserSignupSchema = new mongoose.Schema({
         type: String,
         required: true,
         // minlength: 6
-    }
+    },
+    wallet: [HistoryModel]
    
 });
 const signupModel = mongoose.model("Register", UserSignupSchema);
