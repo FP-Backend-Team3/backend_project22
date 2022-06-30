@@ -3,6 +3,13 @@ import jtw from "jsonwebtoken";
 import signupModel from "../models/userSignupModel.js";
 
 export const postHistory = async (req, res) => {
+    const { authorization  } = req.headers;
+    const token = authorization?.replace('Bearer ', '');
+
+    
+
+
+
     const { amount, description } = req.body;
     const history = new HistoryModel({
         amount,
