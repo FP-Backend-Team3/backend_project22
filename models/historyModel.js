@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const historySchema = new mongoose.Schema({
     amount: {
         type: Number,
+        default:0,
         required: true
     },
     description: {
@@ -12,6 +13,7 @@ const historySchema = new mongoose.Schema({
     type: {
         type: String,
     }
+
 
 })
 

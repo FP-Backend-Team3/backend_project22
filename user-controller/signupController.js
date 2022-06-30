@@ -1,12 +1,20 @@
 import signupModel from "../models/userSignupModel.js";
 import  jwt  from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import { validationResult } from "express-validator";
 
 export const createUser = async (req, res) => {
-  
-  const { name, email, password,confirmPassword } = req.body;
+  const { name, email, password } = req.body;
+
 
   try {
+    const errors = validationResult(req);
+  
+    if (!errors.isEmpty()) {
+      return res.status(422).json({
+        errors: errors.array().map((err) => err.msg),
+      });
+    }
     //Check if user already exisists
     let existingUser = await signupModel.findOne({ email });
     if (existingUser) {
