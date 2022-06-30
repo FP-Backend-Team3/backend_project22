@@ -3,12 +3,28 @@ import {createUser } from "../user-controller/signupController.js"
 import {loginUser } from "../user-controller/signinController.js"
 import {postHistory, getHistory, deleteHistory,updateHistory, loggedIn } from "../user-controller/historyController.js"
 import auth from "../middle/auth.js";
+import { body } from "express-validator";
+
 
 
 
 const router = express.Router();
 
-router.post("/signup",createUser)
+router.post("/signup", [
+    body("name").notEmpty().withMessage("First name is required").trim(),
+    body("email", "Email is required").isEmail().normalizeEmail(),
+    body("password", "Password is required and length min 4 chars.")
+      .isLength({ min: 4 })
+      .custom((val, { req }) => {
+        if (val !== req.body.confirm_password) {
+          throw new Error("Password don't match!");
+        } else {
+          return val;
+        }
+      }),
+  ],createUser
+
+)
 
 router.post("/login",loginUser)
 
