@@ -1,7 +1,7 @@
 import express from "express";
 import {createUser } from "../user-controller/signupController.js"
 import {loginUser } from "../user-controller/signinController.js"
-import {postHistory, getHistory, deleteHistory,updateHistory, loggedIn } from "../user-controller/historyController.js"
+import {postHistory, getUser, deleteHistory,updateHistory, loggedIn } from "../user-controller/historyController.js"
 import auth from "../middle/auth.js";
 import { body } from "express-validator";
 
@@ -27,12 +27,12 @@ router.post("/signup", [
 )
 
 router.post("/login",loginUser)
-
+router.get("/user",auth, getUser)
 // router.get("/loggedin", authorize, loggedIn)
 
-router.post("/history", postHistory)
+router.post("/history",auth, postHistory)
 
-router.get("/history", getHistory)
+// router.get("/history", getHistory)
 
 router.delete("/history/:id",deleteHistory)
 

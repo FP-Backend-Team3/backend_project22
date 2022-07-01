@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-import HistoryModel from "./historyModel.js";
+
+
+
 
 const UserSignupSchema = new mongoose.Schema({
     name: {
@@ -19,9 +21,11 @@ const UserSignupSchema = new mongoose.Schema({
         required: true,
         // minlength: 6
     },
-    wallet: [HistoryModel]
+    wallet: [{type : mongoose.Schema.Types.ObjectId, ref: "History"}]
+   
    
 });
+
 const signupModel = mongoose.model("Register", UserSignupSchema);
 
 export default signupModel;
