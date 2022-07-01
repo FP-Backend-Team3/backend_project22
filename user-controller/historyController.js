@@ -3,33 +3,53 @@ import jtw from "jsonwebtoken";
 import signupModel from "../models/userSignupModel.js";
 
 export const postHistory = async (req, res) => {
-    const { authorization  } = req.headers;
-    const token = authorization?.replace('Bearer ', '');
-
     
 
+    // try {
+    //     if (req.user) {
+    //       const user = await signupModel.find();
+    //       res.status(200).json({ details: user });
+    //     }
+    //   } catch (error) {
+    //     console.log(error.message);
+    //   }
+    // ;
 
 
-    const { amount, description } = req.body;
-    const history = new HistoryModel({
-        amount,
-        description,
-    });
+
+    const { amount, description,user_id } = req.body;
     try {
+        const user = await signupModel.findById(user_id);
+        if (!user) {
+            return res.status(404).json({ msg: "User not found" });
+        }
+        const history = new HistoryModel({
+            amount,
+            description,
+        });
+    
+   
+     
         await history.save();
+        user.wallet.push(history._id);
+        await user.save();
         res.status(200).json({ msg: "History Added!" });
     } catch (error) {
         res.status(500).send(error);
     }
-    }
-
-    export const getHistory = async (req, res) => {
+    
+}
+    export const getUser = async (req, res) => {
         try {
-            const history = await HistoryModel.find();
-            res.status(200).json(history);
+            console.log(req);
+            const user = await signupModel.findById(req.body.user_id).populate("wallet");
+            res.status(200).json({user});
+            // const history = await HistoryModel.find();
+            // res.status(200).json(history);
         } catch (error) {
             res.status(500).send(error);
         }
+
     }
 
     export const deleteHistory = async (req, res) => {
